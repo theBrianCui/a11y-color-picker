@@ -5,6 +5,7 @@ export interface IColorAreaProps {
     color: TinyColor.Instance;
     width: string;
     height: string;
+    onMouseDown?: (color: TinyColor.Instance) => void;
 }
 
 export class ColorArea extends React.Component<IColorAreaProps> {
@@ -15,8 +16,15 @@ export class ColorArea extends React.Component<IColorAreaProps> {
             height: this.props.height
         }
 
+        let onMouseDown = undefined;
+        if (this.props.onMouseDown) {
+            onMouseDown = (_: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+                (this.props.onMouseDown as (color: TinyColor.Instance) => void)(this.props.color);
+            }
+        }
+
         return (
-            <div className="ColorArea" style={style}>
+            <div className="ColorArea" style={style} onMouseDown={onMouseDown} draggable='false'>
             </div>
         )
     }

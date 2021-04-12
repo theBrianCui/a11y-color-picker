@@ -1,47 +1,23 @@
 import * as React from 'react';
 import TinyColor from 'tinycolor2';
+
 import {ColorArea, IColorAreaProps} from './ColorArea';
+import {RAINBOW} from './Helpers';
 
-const RAINBOW: TinyColor.Instance[] = (() => {
-    const colors = [];
-    let r = 255;
-    let g = 0;
-    let b = 0;
-
-    for (g = 0; g <= 255; ++g) {
-        colors.push(TinyColor({ r,g,b }));
+class App extends React.Component<{}, { selectedColor: TinyColor.Instance }> {
+    constructor(props: {}) {
+        super(props);
+        this.state = {
+            selectedColor: TinyColor('#ffffff')
+        };
     }
-    g = 255;
 
-    for (r = 255; r >= 0; r--) {
-        colors.push(TinyColor({ r,g,b }));
+    onMouseDown = (color: TinyColor.Instance) => {
+        this.setState({
+            selectedColor: color
+        });
     }
-    r = 0;
 
-    for (b = 0; b <= 255; ++b) {
-        colors.push(TinyColor({ r,g,b }));
-    }
-    b = 255;
-
-    for (g = 255; g >= 0; g--) {
-        colors.push(TinyColor({ r,g,b }));
-    }
-    g = 0;
-
-    for (r = 0; r <= 255; ++r) {
-        colors.push(TinyColor({ r,g,b }));
-    }
-    r = 255;
-
-    for (b = 255; b >= 0; b--) {
-        colors.push(TinyColor({ r,g,b }));
-    }
-    b = 0;
-
-    return colors;
-})();
-
-class App extends React.Component {
     render() {
         const colors = RAINBOW;
         const size = {
@@ -53,15 +29,18 @@ class App extends React.Component {
             const props: IColorAreaProps = {
                 color: c,
                 width: size.width,
-                height: size.height
+                height: size.height,
+                onMouseDown: this.onMouseDown
             };
 
             return <ColorArea {...props}></ColorArea>
         });
 
+        const selected = this.state.selectedColor;
         return (
             <div className="app">
                 {colorAreas}
+                <ColorArea color={selected} width='25px' height='25px'></ColorArea>
             </div>
         );
     }
