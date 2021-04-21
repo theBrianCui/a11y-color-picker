@@ -17,14 +17,27 @@ export class ColorArea extends React.Component<IColorAreaProps> {
         }
 
         let onMouseDown = undefined;
-        if (this.props.onMouseDown) {
-            onMouseDown = (_: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-                (this.props.onMouseDown as (color: TinyColor.Instance) => void)(this.props.color);
+        let onMouseOver = undefined;
+        if (this.props.onMouseDown !== undefined) {
+            const mouseDownHandler = this.props.onMouseDown;
+            onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+                e.preventDefault();
+                mouseDownHandler(this.props.color);
+            }
+
+            onMouseOver = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+                e.preventDefault();
+                if (e.buttons > 0) {
+                    mouseDownHandler(this.props.color);
+                }
             }
         }
 
         return (
-            <div className="ColorArea" style={style} onMouseDown={onMouseDown} draggable='false'>
+            <div className="ColorArea" style={style}
+                onMouseDown={onMouseDown}
+                onMouseOver={onMouseOver}
+                draggable='false'>
             </div>
         )
     }

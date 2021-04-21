@@ -22,7 +22,7 @@ class App extends React.Component<{}, { selectedColor: TinyColor.Instance }> {
     render() {
         const colors = RAINBOW;
         const size = {
-            width: '0.5px',
+            width: '1px',
             height: '50px'
         };
 
