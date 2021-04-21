@@ -2,6 +2,7 @@ import * as React from 'react';
 import TinyColor from 'tinycolor2';
 
 import {ColorArea, IColorAreaProps} from './ColorArea';
+import { ColorInput } from './ColorInput';
 import {RAINBOW} from './Helpers';
 
 class App extends React.Component<{}, { selectedColor: TinyColor.Instance }> {
@@ -39,8 +40,9 @@ class App extends React.Component<{}, { selectedColor: TinyColor.Instance }> {
         const selected = this.state.selectedColor;
         return (
             <div className="app">
-                {colorAreas}
+                <div>{colorAreas}</div>
                 <ColorArea color={selected} width='25px' height='25px'></ColorArea>
+                <ColorInput selectedColor={selected}></ColorInput>
             </div>
         );
     }
